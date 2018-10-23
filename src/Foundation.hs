@@ -17,7 +17,8 @@ import Text.Jasmine         (minifym)
 import Control.Monad.Logger (LogSource)
 
 -- Used only when in "auth-dummy-login" setting is enabled.
-import Yesod.Auth.Dummy
+import           Yesod.Auth.BrowserId
+import           Yesod.Auth.GoogleEmail2
 
 import Yesod.Auth.OpenId    (authOpenId, IdentifierType (Claimed))
 import Yesod.Default.Util   (addStaticContentExternal)
@@ -71,6 +72,11 @@ type DB a = forall (m :: * -> *).
 
 -- Please see the documentation for the Yesod typeclass. There are a number
 -- of settings which can be configured by overriding methods here.
+
+clientId, clientSecret :: Text 
+clientId = "242070051203-gr96nq9si5ikbudcqlj4gs6341l2sdjq.apps.googleusercontent.com"
+clientSecret = "Aq_aTpvNbQ3yMlZf79VpEO1e"
+
 instance Yesod App where
     -- Controls the base of generated URLs. For more information on modifying,
     -- see: https://github.com/yesodweb/yesod/wiki/Overriding-approot
@@ -170,6 +176,8 @@ instance Yesod App where
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
     isAuthorized ProfileR _ = isAuthenticated
+    isAuthorized TablesNewR _ = isAuthenticated
+    isAuthorized TablesListR _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -257,10 +265,7 @@ instance YesodAuth App where
                 }
 
     -- You can add other plugins like Google Email, email or OAuth here
-    authPlugins :: App -> [AuthPlugin App]
-    authPlugins app = [authOpenId Claimed []] ++ extraAuthPlugins
-        -- Enable authDummy login if enabled.
-        where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
+    authPlugins _ = [ authBrowserId def, authGoogleEmail clientId clientSecret  ]
 
 -- | Access function to determine if a user is logged in.
 isAuthenticated :: Handler AuthResult

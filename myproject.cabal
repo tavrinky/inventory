@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b37cf755d60adb0be1c6945b004ac58b969c97717ed52bfbd22c665c1f1a08d6
+-- hash: 7bdb186a6e8744783af0ae766e4d10cf4473056cc251b7daea13617fc2a4eecc
 
 name:           myproject
 version:        0.0.0
@@ -27,6 +27,8 @@ library
       Handler.Common
       Handler.Home
       Handler.Profile
+      Handler.TablesList
+      Handler.TablesNew
       Import
       Import.NoFoundation
       Model

@@ -8,3 +8,8 @@
 
     <p>
       Your data is protected with us <strong><span class="username">#{userIdent user}</span></strong>!
+
+    <p> 
+      <a class="btn btn-primary" href="@{TablesListR}" role="button">Your tables</a>
+        
+

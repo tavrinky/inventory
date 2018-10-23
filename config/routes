@@ -12,3 +12,6 @@
 /comments CommentR POST
 
 /profile ProfileR GET
+
+/tableslist TablesListR GET
+/tables/new TablesNewR GET POST
