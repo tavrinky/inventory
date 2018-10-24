@@ -29,6 +29,7 @@ library
       Handler.Profile
       Handler.TablesList
       Handler.TablesNew
+      Handler.TablesEdit
       Import
       Import.NoFoundation
       Model

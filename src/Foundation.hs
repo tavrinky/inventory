@@ -178,6 +178,7 @@ instance Yesod App where
     isAuthorized ProfileR _ = isAuthenticated
     isAuthorized TablesNewR _ = isAuthenticated
     isAuthorized TablesListR _ = isAuthenticated
+    isAuthorized (TablesEditR _) _ = isAuthenticated
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
