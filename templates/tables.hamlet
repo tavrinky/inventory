@@ -1,0 +1,1 @@
+<a class="btn btn-primary" href="@{TablesNewR}" role="button">Make a new table</a>

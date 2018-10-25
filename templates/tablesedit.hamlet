@@ -1,0 +1,4 @@
+$forall (widget, enctype) <-results 
+    <form method=post action=@{TablesEditR int} enctype=#{enctype}>
+        ^{widget}
+    <button>Submit 

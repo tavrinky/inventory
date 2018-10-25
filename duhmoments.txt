@@ -1,0 +1,9 @@
+Language pragmas need to be above modules. 
+Exit out of yesod devel, then stack clean; yesod devel after editing Hamlet
+yesod add-handler is your friend
+but won't authorize your handler in Foundation.hs
+Don't write to DB unnecessarily because you might change your schema
+Similarly, don't write forms to DBs unnecessarily, when you can just pass them around 
+You don't need to wrap form results
+You can't save lists to DBs 
+https://stackoverflow.com/questions/35382639/having-trouble-compiling-yesod-route-after-introducing-a-parameter?noredirect=1&lq=1

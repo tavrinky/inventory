@@ -1,0 +1,8 @@
+
+<p>
+    The widget generated contains only the contents
+    of the form, not the form tag itself. So...
+<form method=post action=@{PersonR} enctype=#{enctype}>
+    ^{widget}
+    <p>It also doesn't include the submit button.
+    <button>Submit 
