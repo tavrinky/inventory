@@ -11,6 +11,7 @@ import Import
 
 import Yesod.Form.Bootstrap3
 import Yesod.Core.Handler 
+import Data.ByteString.Char8 as B (pack,unpack)
 
 itemNumberForm =  areq intField (bfs ("Number of items" :: Text)) Nothing
 
@@ -24,5 +25,25 @@ postTablesNewR :: Handler Html
 postTablesNewR = do 
     text <- getPostParams
     maybeCurrentUserId <- maybeAuthId
-    let res = concatMap (uncurry (<>)) text  
-    defaultLayout [whamlet| #{res} |]
+    let ptext = process text 
+    
+    str <- getTables
+    length str `seq` return ()
+    case maybeCurrentUserId of 
+        (Just uid) -> 
+            appendTables ptext uid >> defaultLayout [whamlet| #{ptext} |]
+
+  where 
+    process text = Import.unpack . concat . intersperse delimiter $ map snd text 
+    delimiter = "\n"
+    logfile = "logfile.txt" 
+
+    getTables :: (MonadIO f) => f [Char]
+    getTables =  do 
+        B.unpack <$> readFile logfile
+    
+    appendTables :: (MonadIO m, Show a, Show b) => a -> b -> m ()
+    appendTables ptext uid = do 
+        str <- getTables 
+        writeFile logfile $ B.pack $ str <> (show $ (ptext, uid))
+
