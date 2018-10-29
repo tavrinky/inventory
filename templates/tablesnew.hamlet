@@ -1,3 +1,17 @@
-<form method=post action=@{TablesNewR} enctype=#{enctype}>
-    ^{widget}
-    <button>Submit 
+<form method=post action="@{TablesNewR}" enctype=#{enctype}>
+      <br>Pets:
+      <div id="petsContainer">
+        <input type="text" id="pets" name="pets">
+        <input type="button" id="addPet" value="Add Pet">
+
+
+      <input type="submit" value="Submit">
+<script>
+    document.getElementById("addPet").onclick=function() {
+                    var div = document.getElementById("petsContainer");
+                    var input = document.createElement("input");
+                    input.type = "text";
+                    input.name = "pets";
+                    div.appendChild(document.createElement("br"));
+                    div.appendChild(input);
+                }

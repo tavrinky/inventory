@@ -10,6 +10,7 @@ module Handler.TablesNew where
 import Import
 
 import Yesod.Form.Bootstrap3
+import Yesod.Core.Handler 
 
 itemNumberForm =  areq intField (bfs ("Number of items" :: Text)) Nothing
 
@@ -21,9 +22,7 @@ getTablesNewR = do
 
 postTablesNewR :: Handler Html 
 postTablesNewR = do 
-    ((res, widget), enctype) <- runFormPost $ renderBootstrap3 BootstrapBasicForm itemNumberForm
+    text <- getPostParams
     maybeCurrentUserId <- maybeAuthId
-    case res of 
-        FormSuccess itemnum -> do 
-            redirect $ TablesEditR itemnum
-        _ -> defaultLayout $(widgetFile "tablesnew")
+    let res = concatMap (uncurry (<>)) text  
+    defaultLayout [whamlet| #{res} |]

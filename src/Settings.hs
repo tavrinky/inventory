@@ -18,13 +18,13 @@ import Data.FileEmbed              (embedFile)
 import Data.Yaml                   (decodeEither')
 import Database.Persist.Sqlite     (SqliteConf)
 import Language.Haskell.TH.Syntax  (Exp, Name, Q)
-import Network.Wai.Handler.Warp    (HostPreference)
+import Network.Wai.Handler.Warp    (HostPreference) 
 import Yesod.Default.Config2       (applyEnvValue, configSettingsYml)
 import Yesod.Default.Util          (WidgetFileSettings, widgetFileNoReload,
                                     widgetFileReload)
 
 -- | Runtime settings to configure this application. These settings can be
--- loaded from various sources: defaults, environment variables, config files,
+-- loaded from various sources: faults, environment variables, config files,
 -- theoretically even a database.
 data AppSettings = AppSettings
     { appStaticDir              :: String
