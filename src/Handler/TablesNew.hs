@@ -5,20 +5,18 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE FlexibleContexts #-}
 module Handler.TablesNew where
 
 import Import
+import Utils
 
-import Yesod.Form.Bootstrap3
 import Yesod.Core.Handler 
 import Data.ByteString.Char8 as B (pack,unpack)
-
-itemNumberForm =  areq intField (bfs ("Number of items" :: Text)) Nothing
 
 
 getTablesNewR :: Handler Html
 getTablesNewR = do 
-    (widget, enctype) <- generateFormPost . renderBootstrap3 BootstrapBasicForm $ itemNumberForm
     defaultLayout $ $(widgetFile "tablesnew")
 
 postTablesNewR :: Handler Html 
@@ -27,23 +25,12 @@ postTablesNewR = do
     maybeCurrentUserId <- maybeAuthId
     let ptext = process text 
     
-    str <- getTables
-    length str `seq` return ()
     case maybeCurrentUserId of 
         (Just uid) -> 
-            appendTables ptext uid >> defaultLayout [whamlet| #{ptext} |]
+            appendTables (stringify ptext uid) >> defaultLayout [whamlet| foo |]
 
   where 
-    process text = Import.unpack . concat . intersperse delimiter $ map snd text 
-    delimiter = "\n"
-    logfile = "logfile.txt" 
+   
+    stringify a b = (<>) <$> getTables <*> pure (show (a,b))
 
-    getTables :: (MonadIO f) => f [Char]
-    getTables =  do 
-        B.unpack <$> readFile logfile
-    
-    appendTables :: (MonadIO m, Show a, Show b) => a -> b -> m ()
-    appendTables ptext uid = do 
-        str <- getTables 
-        writeFile logfile $ B.pack $ str <> (show $ (ptext, uid))
-
+     process text = Import.unpack . concat $ map (munge . snd) text 
