@@ -15,23 +15,15 @@ module Handler.TablesEdit where
 
 
 import Import
-import Yesod.Form.Bootstrap3
+import Utils 
 
-import Prelude (map, (++))
+import qualified Data.Text (splitOn)
 
-itemsForm :: Int -> [AForm Handler Text]
-itemsForm x =  [tForm n | n <- [1..x]]
-  where 
-    tForm :: Int -> AForm Handler Text
-    tForm n = areq textField (displayString n) Nothing 
-    displayString n = bfs (pack ("Item number " Prelude.++ show n Prelude.++ ":") :: Text)
-
-getTablesEditR :: Int -> Handler Html
-getTablesEditR int = do 
-    let mkPost form = generateFormPost $ renderBootstrap3 BootstrapBasicForm form 
-    let forms = Prelude.map mkPost (itemsForm int) 
-    results <- sequence forms 
-    defaultLayout $(widgetFile "tablesedit") 
+getTablesEditR :: TableId -> Handler Html
+getTablesEditR tableId = do 
+  (Table contents _) <- runDB $ get404 tableId
+  defaultLayout $ do
+      $(widgetFile "tablesedit")
 
     
 

@@ -15,4 +15,4 @@
 
 /tableslist TablesListR GET
 /tables/new TablesNewR GET POST
-/entry/#Int TablesEditR GET
+/entry/#TableId TablesEditR GET

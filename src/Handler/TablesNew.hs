@@ -26,11 +26,15 @@ postTablesNewR = do
     let ptext = process text 
     
     case maybeCurrentUserId of 
-        (Just uid) -> 
-            appendTables (stringify ptext uid) >> defaultLayout [whamlet| foo |]
+        (Just uid) -> do 
+            tableId <- runDB . insert $ Table ptext (Just uid) 
+            redirect $ TablesEditR tableId  
+
 
   where 
    
     stringify a b = (<>) <$> getTables <*> pure (show (a,b))
 
-     process text = Import.unpack . concat $ map (munge . snd) text 
+    process text = intercalate delimiter $ map snd text 
+
+

@@ -27,10 +27,8 @@ appendTables str = str >>= writeOp
 writeOp :: String -> HandlerFor App () 
 writeOp = writeFile logfile . B.pack    
 
-delimiter :: Char 
-delimiter = '\n'
-munge :: Text -> Text
-munge = Import.pack . intersperse delimiter . Import.unpack
+delimiter :: Text
+delimiter = "\n"
 
 
 
