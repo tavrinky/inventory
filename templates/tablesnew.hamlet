@@ -1,17 +1,50 @@
-<form method=post action="@{TablesNewR}">
-      <br>Pets:
-      <div id="petsContainer">
-        <input type="text" id="pets" name="pets">
-        <input type="button" id="addPet" value="Add Pet">
+<style>
+    .column {
+        display: inline-block;
+    }
+
+  
+<form method=post>
+  <div class="column" id="pets-column">
+    <div>
+      <label>Pets:
+
+    <div>
+      <input type="text" name="pets" />
 
 
-      <input type="submit" value="Submit">
+
+  <div class="column" id="name-column">
+    <div>
+      <label>Name:
+    <div>
+      <input type="text" name="name" />
+
+
+
+  <p>
+    <button id="addPet">Add Pet
+
+
+  <p>
+    <button type="submit">Submit
+
+
+
 <script>
-    document.getElementById("addPet").onclick=function() {
-                    var div = document.getElementById("petsContainer");
-                    var input = document.createElement("input");
-                    input.type = "text";
-                    input.name = "pets";
-                    div.appendChild(document.createElement("br"));
-                    div.appendChild(input);
-                }
+  document.getElementById("addPet").onclick = function() {
+    var petsColumn = document.getElementById("pets-column");
+    var petsRow = document.createElement("div");
+    petsRow.innerHTML = '<input type="text" name="pets" />';
+    petsColumn.appendChild(petsRow);
+
+    var nameColumn = document.getElementById("name-column");
+    var nameRow = document.createElement("div");
+    nameRow.innerHTML = '<input type="text" name="name" />';
+    nameColumn.appendChild(nameRow);
+
+    // returning false prevents the button from submitting the form
+    return false;
+  }
+
+  

@@ -7,3 +7,5 @@ Similarly, don't write forms to DBs unnecessarily, when you can just pass them a
 You don't need to wrap form results
 You can't save lists to DBs 
 https://stackoverflow.com/questions/35382639/having-trouble-compiling-yesod-route-after-introducing-a-parameter?noredirect=1&lq=1
+Yes, you do actually want a database, don't hack together text files 
+Intercalate > intersperse   
