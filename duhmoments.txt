@@ -9,3 +9,7 @@ You can't save lists to DBs
 https://stackoverflow.com/questions/35382639/having-trouble-compiling-yesod-route-after-introducing-a-parameter?noredirect=1&lq=1
 Yes, you do actually want a database, don't hack together text files 
 Intercalate > intersperse   
+Learn how div works 
+Wrap a buncha shit with it 
+Js is metaprogramming magic 
+Hamlet is kinda a pain in the ass?
