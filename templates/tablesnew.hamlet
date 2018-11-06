@@ -5,25 +5,31 @@
 
   
 <form method=post>
-  <div class="column" id="pets-column">
+  <div>
+    <label>Title 
+
+  <div>
+    <input type="text" name="title" tabindex=1- .>
+    
+  <div class="column" id="terms-column">
     <div>
-      <label>Pets:
+      <label>Terms
 
     <div>
-      <input type="text" name="pets" tabindex=1 />
+      <input type="text" name="terms" tabindex=1 />
 
 
 
-  <div class="column" id="name-column">
+  <div class="column" id="definitions-column">
     <div>
-      <label>Name:
+      <label>Definition:
     <div>
-      <input type="text" name="name" tabindex=2 />
+      <input type="text" name="definition" tabindex=2 />
 
 
 
   <p>
-    <button id="addPet" tabindex=-1>Add Pet
+    <button id="addCard" tabindex=-1>Add Card
 
 
   <p>
@@ -33,21 +39,21 @@
 
 <script>
   var counter = 3
-  document.getElementById("addPet").onclick = function() {
+  document.getElementById("addCard").onclick = function() {
 
 
 
-    var petsColumn = document.getElementById("pets-column");
-    var petsRow = document.createElement("div");
-    petsRow.innerHTML = `<input type="text" name="pets" tabindex=${counter}/>`  ;
-    petsColumn.appendChild(petsRow);
+    var termsColumn = document.getElementById("terms-column");
+    var termsRow = document.createElement("div");
+    termsRow.innerHTML = `<input type="text" name="terms" tabindex=${counter}/>`  ;
+    termsColumn.appendChild(termsRow);
 
     counter++;
 
-    var nameColumn = document.getElementById("name-column");
-    var nameRow = document.createElement("div");
-    nameRow.innerHTML = `<input type="text" name="name" tabindex=${counter}/>`;
-    nameColumn.appendChild(nameRow);
+    var definitionsColumn = document.getElementById("definitions-column");
+    var definitionsRow = document.createElement("div");
+    definitionsRow.innerHTML = `<input type="text" name="definition" tabindex=${counter}/>`;
+    definitionsColumn.appendChild(definitionsRow);
 
     counter++; 
 

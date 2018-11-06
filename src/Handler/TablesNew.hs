@@ -11,8 +11,8 @@ module Handler.TablesNew where
 import Import
 import Utils
 
-import Yesod.Core.Handler 
-import Data.ByteString.Char8 as B (pack,unpack)
+import Data.Maybe
+
 
 
 getTablesNewR :: Handler Html
@@ -23,11 +23,11 @@ postTablesNewR :: Handler Html
 postTablesNewR = do 
     text <- getPostParams
     maybeCurrentUserId <- maybeAuthId
-    let ptext = process text 
+    let (header, ptext) = process text 
     
     case maybeCurrentUserId of 
         (Just uid) -> do 
-            tableId <- runDB . insert $ Table ptext (Just uid) 
+            tableId <- runDB . insert $ Table header ptext uid 
             redirect $ TablesEditR tableId  
 
 
@@ -35,6 +35,18 @@ postTablesNewR = do
    
     stringify a b = (<>) <$> getTables <*> pure (show (a,b))
 
-    process text = intercalate delimiter $ map snd text 
+
+    process text = (title, (intercalate delimiter . concat . map (uncurry (:) . concatColumns) . toColumns$ rest)) 
+      where 
+        title = fromJust . lookup "title" $ text 
+        rest =  filter ((/= "title") . fst) text 
+
+    toColumns :: [(Text,Text)] -> [[(Text, Text)]]
+    toColumns = groupBy ((==) `on` fst) 
+
+    concatColumns :: [(Text, Text)] -> (Text, [Text])
+    concatColumns xs = (fst . Import.unsafeHead $ xs, map snd xs)
+
+
 
 

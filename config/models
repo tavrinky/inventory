@@ -17,7 +17,8 @@ Comment json -- Adding "json" causes ToJSON and FromJSON instances to be derived
     deriving Eq
     deriving Show
 Table 
+    tableheader Text
     tablecontents Text 
-    userId UserId Maybe 
+    userId UserId 
     deriving Eq 
     deriving Show   

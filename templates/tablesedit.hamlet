@@ -1,1 +1,10 @@
-#{contents}
+<table style="width:100%">
+  <tr>
+    <th>Terms
+    <th>Definitions
+
+
+  <tr>
+    $forall termdef <- cols 
+      <td>#{fst termdef}
+      <td>#{snd termdef}  

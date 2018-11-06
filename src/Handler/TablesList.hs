@@ -9,7 +9,8 @@ import Import
 
 
 getTablesListR :: Handler Html
-getTablesListR = do
+getTablesListR =  do 
+    allDecks <- runDB $ selectList [] [Desc TableId]
+    
     defaultLayout $ do
-        setTitle . toHtml $ ("tables" :: Text)
         $(widgetFile "tables")

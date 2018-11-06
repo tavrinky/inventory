@@ -1,1 +1,8 @@
-<a class="btn btn-primary" href="@{TablesNewR}" role="button">Make a new table</a>
+<h1> All Posts
+
+<div .jumbotron>
+  <ul>
+    $forall Entity id post <- allDecks 
+      <h4>
+        <li>
+          <a href=@{TablesEditR id}>#{show  (unTableKey id)}
