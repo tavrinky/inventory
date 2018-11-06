@@ -21,4 +21,12 @@ Table
     tablecontents Text 
     userId UserId 
     deriving Eq 
-    deriving Show   
+    deriving Show 
+
+
+Deck 
+    title Text 
+    cards ByteString
+    userId UserId 
+    deriving Eq
+    deriving Show 

@@ -5,4 +5,4 @@
     $forall Entity id post <- allDecks 
       <h4>
         <li>
-          <a href=@{TablesEditR id}>#{tableTableheader post}
+          <a href=@{TablesEditR id}>#{deckTitle post}

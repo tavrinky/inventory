@@ -15,4 +15,5 @@
 
 /tableslist TablesListR GET
 /tables/new TablesNewR GET POST
-/entry/#TableId TablesEditR GET 
+/entry/#DeckId TablesEditR GET 
+/deck/#TableId DeckStudyR GET POST

@@ -10,7 +10,7 @@ import Import
 
 getTablesListR :: Handler Html
 getTablesListR =  do 
-    allDecks <- runDB $ selectList [] [Desc TableId]
+    allDecks <- runDB $ selectList [] [Desc DeckId]  
     
     defaultLayout $ do
         $(widgetFile "tables")

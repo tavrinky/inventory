@@ -22,13 +22,12 @@ import Database.Persist.Sql
 import Text.Blaze
 
 
-getTablesEditR :: TableId -> Handler Html
-getTablesEditR tableId = do 
-  (Table title contents _) <- runDB $ get404 tableId 
-  let elems = Data.Text.splitOn delimiter contents 
-  let (col1, col2) = (unsafeTail $ takeWhile (/= "definition") elems, unsafeTail $ dropWhile (/= "definition") elems) 
-  let cols = zip  col1 col2 
-  
+getTablesEditR :: DeckId -> Handler Html
+getTablesEditR deckId = do 
+  (Deck title contents _) <- runDB $ get404 deckId 
+  let cards = getCards contents 
+  let cols = map (\(Card term def _ _) -> (decodeUtf8 term, decodeUtf8 def)) cards
+  --_ <- runDB $ deleteWhere [TableTablecontents !=. ""]
   defaultLayout $ do
       setTitle $ toMarkup title
       $(widgetFile "tablesedit")
