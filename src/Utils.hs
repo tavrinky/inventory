@@ -13,6 +13,7 @@ import Import
 import Data.ByteString.Char8 as B (pack, unpack)
 import Data.Serialize 
 import Data.Either 
+import Text.Blaze
 
 
 
@@ -44,4 +45,7 @@ innerdelimiter = "\t"
 
 getCards bcards = fromRight [] $ runGet Data.Serialize.get bcards  
 
+instance ToMarkup ByteString where 
+    toMarkup = toMarkup . decodeUtf8
+    
 

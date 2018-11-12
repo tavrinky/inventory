@@ -1,0 +1,114 @@
+
+
+
+<form id="form">    
+    <div class="partition" id="termpart">
+        <div> 
+            <label>Term:
+
+        <div id="term">
+  
+
+  
+    <div class="partition" id="defpart"> 
+    
+        <label>Definition
+        <div id="def"> 
+            <input type="text" name="def" id="defbox" /> 
+            <button type="submit">submit
+      
+
+
+
+<div id="result"> 
+
+<form method="post" action=@{DeckStudyR deckId}> 
+  <input type="text" id="hidden" name="hidden" /> 
+  <button type="submit">finished 
+
+
+
+
+<script>
+    function $(id) { return document.getElementById(id); }
+
+    let cards = [ {"term": "foo", "def": "bar", "correctRatio" : 0, "attempts": 0}, {"term": "baz", "def": "qux", "correctRatio": 1, "attempts": 0  }];
+    function setTerm(term) {
+        \$("term").innerHTML = term;
+    }
+
+    //from E
+    function choose(array) { return array[Math.floor(Math.random() * array.length)]; }
+
+    function getCard() { 
+        let minValue = cards.map((card) => card.correctRatio).reduce((card1, card2) => card1 < card2 ? card1 : card2); 
+        return choose(cards.filter((card) => card.correctRatio === minValue)); 
+    }
+
+    \$("form").onsubmit = function() { 
+        let box = $("defbox");
+        let correct = card.attempts * card.correctRatio; 
+        let displayArea = $("result"); 
+
+        console.log("running"); 
+
+        if (box.value === card.def) 
+        { 
+            displayArea.innerHTML = "Correct!"; 
+            correct++; 
+        }
+        else
+        {
+            displayArea.innerHTML = "Incorrect!"; 
+        }
+
+        card.attempts++; 
+        card.correctRatio = card.attempts ? correct / card.attempts : 0; 
+
+        box.value = ""; 
+        loadCard(); 
+
+
+        \$("hidden").value = "["+fromCards(cards).map((card) => "["+card.join(",")+"]").join(",")+"]"; 
+
+        return false; 
+    }
+
+
+    function loadCard() 
+    {
+        card = getCard();
+        setTerm(card.term);
+    }
+
+    function mkCards(term, def, correct, incorrect) 
+    {
+        let attempts = correct + incorrect; 
+        let correctRatio = attempts ? correct / attempts : 0; 
+        let card = { "term": term, "def": def, "correctRatio": correctRatio, "attempts": attempts}; 
+
+        cards.push(card); 
+    }
+
+    function fromCards() 
+    { 
+        let newCards = [];
+        for (card of cards) 
+        {
+            let inner = [];
+            for (prop in card) 
+            { 
+                inner.push(["\""+card[prop]+"\""]); 
+            }
+            newCards.push(inner); 
+        }
+        return newCards 
+    }
+
+$forall (Card term def correct incorrect) <- cards 
+    <script> 
+        mkCards("#{term}", "#{def}", #{correct}, #{incorrect})
+
+<script> 
+    loadCard(); 
+

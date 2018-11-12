@@ -8,8 +8,8 @@
 {-# LANGUAGE FlexibleContexts #-}
 module Handler.TablesNew where
 
-import Import
-import Utils
+import Import hiding (def)
+import Utils hiding (term)
 
 import Data.Maybe
 import Data.Serialize
@@ -29,12 +29,12 @@ postTablesNewR = do
             let cards = map (\(term,def) -> Card term def 0 0) bytestrings 
             let deck = Deck title (runPut $ put cards) uid  
             deckId <- runDB $ insert deck 
-            --redirect $ TablesEditR tableId  
-            redirect HomeR
+            redirect $ TablesEditR deckId 
+ 
 
   where 
    
-    stringify a b = (<>) <$> getTables <*> pure (show (a,b))
+    --stringify a b = (<>) <$> getTables <*> pure (show (a,b))
 
     
 

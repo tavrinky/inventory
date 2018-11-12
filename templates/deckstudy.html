@@ -1,0 +1,74 @@
+
+<form id="form">    
+    <div class="partition" id="termpart">
+        <div> 
+            <label>Term:</label>
+        </div>
+        <div id="term">
+        </div> 
+    </div>
+  
+    <div class="partition" id="defpart"> 
+    
+        <label>Definition</label>
+        <div id="def"> 
+        <input type="text" name="def" id="defbox" /> 
+        <button type="submit">submit</button>  
+        </div>
+    </div>
+</form>
+
+<div id="result"> 
+</div>
+
+
+<script>
+function $(id) { return document.getElementById(id); }
+
+let cards = [ {"term": "foo", "def": "bar", "correctRatio" : 0, "attempts": 0}, {"term": "baz", "def": "qux", "correctRatio": 1, "attempts": 0  }];
+function setTerm(term) {
+    $("term").innerHTML = term;
+}
+
+//from E
+function choose(array) { array[Math.floor(Math.random() * array.length)]; }
+
+function getCard() { 
+    let minValue = cards.map((card) => card.correctRatio).reduce((card1, card2) => card1 < card2 ? card1 : card2); 
+    return choose(cards.filter((card) => card.correctRatio === minValue)); 
+}
+
+$("form").onsubmit = function() { 
+    let box = $("defbox");
+    let correct = card.attempts * card.correctRatio; 
+    let displayArea = $("result"); 
+
+    console.log("running"); 
+
+    if (box.value === card.def) 
+    { 
+        displayArea.innerHTML = "Correct!"; 
+        correct++; 
+    }
+    else
+    {
+        displayArea.innerHTML = "Incorrect!"; 
+    }
+
+    card.attempts++; 
+    card.correctRatio = card.attempts? correct / card.attempts : 0; 
+
+    box.value = ""; 
+    loadCard(); 
+    return false; 
+}
+
+
+function loadCard() 
+{
+    card = getCard();
+    setTerm(card.term);
+}
+loadCard();
+
+</script>
