@@ -4,7 +4,10 @@
     <th>Definitions
 
 
-  <tr>
-    $forall termdef <- cols 
-      <td>#{fst termdef}
-      <td>#{snd termdef}  
+  $forall termdef <- cols 
+    <tr> 
+      <td>#{fst termdef} 
+      <td>#{snd termdef}
+
+
+<a class="btn btn-primary" href="@{DeckStudyR deckId}" role="button">Your tables</a>

@@ -76,7 +76,7 @@
 
 
     function loadCard() 
-    {
+    {      
         card = getCard();
         setTerm(card.term);
     }
@@ -111,4 +111,4 @@ $forall (Card term def correct incorrect) <- cards
 
 <script> 
     loadCard(); 
-
+    \$("hidden").style.display = "none"; 
