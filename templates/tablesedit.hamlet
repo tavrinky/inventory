@@ -10,4 +10,4 @@
       <td>#{snd termdef}
 
 
-<a class="btn btn-primary" href="@{DeckStudyR deckId}" role="button">Your tables</a>
+<a class="btn btn-primary" href="@{DeckStudyR deckId}" role="button">Study!</a>

@@ -32,7 +32,7 @@
 <script>
     function $(id) { return document.getElementById(id); }
 
-    let cards = [ {"term": "foo", "def": "bar", "correctRatio" : 0, "attempts": 0}, {"term": "baz", "def": "qux", "correctRatio": 1, "attempts": 0  }];
+    let cards = [ ];
     function setTerm(term) {
         \$("term").innerHTML = term;
     }
@@ -45,9 +45,12 @@
         return choose(cards.filter((card) => card.correctRatio === minValue)); 
     }
 
+    function correctRatio(card) { 
+        return card.correct+card.incorrect ? card.correct / (card.correct + card.incorrect) : 0; 
+    }
+
     \$("form").onsubmit = function() { 
         let box = $("defbox");
-        let correct = card.attempts * card.correctRatio; 
         let displayArea = $("result"); 
 
         console.log("running"); 
@@ -55,15 +58,13 @@
         if (box.value === card.def) 
         { 
             displayArea.innerHTML = "Correct!"; 
-            correct++; 
+            card.correct++; 
         }
         else
         {
             displayArea.innerHTML = "Incorrect!"; 
+            card.incorrect++; 
         }
-
-        card.attempts++; 
-        card.correctRatio = card.attempts ? correct / card.attempts : 0; 
 
         box.value = ""; 
         loadCard(); 
@@ -83,15 +84,13 @@
 
     function mkCards(term, def, correct, incorrect) 
     {
-        let attempts = correct + incorrect; 
-        let correctRatio = attempts ? correct / attempts : 0; 
-        let card = { "term": term, "def": def, "correctRatio": correctRatio, "attempts": attempts}; 
-
+        let card = { "term": term, "def": def, "correct": correct, "incorrect": incorrect}; 
         cards.push(card); 
     }
 
     function fromCards() 
     { 
+
         let newCards = [];
         for (card of cards) 
         {
@@ -104,7 +103,6 @@
         }
         return newCards 
     }
-
 $forall (Card term def correct incorrect) <- cards 
     <script> 
         mkCards("#{term}", "#{def}", #{correct}, #{incorrect})
