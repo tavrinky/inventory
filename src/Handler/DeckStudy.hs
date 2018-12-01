@@ -24,7 +24,9 @@ postDeckStudyR :: DeckId -> Handler Html
 postDeckStudyR deckId = do 
   preCards <- getPostParams >>= (return . fromJust . lookup "hidden")
   let readCards :: [[Text]]
-      readCards = fromJust $ readMay preCards 
+      myRead :: Text -> Maybe [[[Text]]]
+      myRead = readMay 
+      readCards = (concat <$>) <$> fromJust $ myRead preCards 
       cards = map mkCard readCards 
   
   runDB $ update deckId [DeckCards =. (runPut . put $ cards)]

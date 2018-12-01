@@ -1,111 +1,99 @@
 
 
 
-<form id="form">    
-    <div class="partition" id="termpart">
-        <div> 
-            <label>Term:
-
-        <div id="term">
-  
-
-  
-    <div class="partition" id="defpart"> 
+<form id="form">
+        <div class="partition" id="termpart">
+            <div> 
+                <label>Term:
+            
     
-        <label>Definition
-        <div id="def"> 
-            <input type="text" name="def" id="defbox" /> 
-            <button type="submit">submit
+            <div id="term">
+        
       
+        <div class="partition" id="defpart"> 
+        
+            <label>Definition
+            <div id="def"> 
+                <input type="text" name="def" id="defbox" autocomplete="off" /> 
+                <button type="submit">submit
 
+    
+    <div id="result"> 
 
-
-<div id="result"> 
-
+    
 <form method="post" action=@{DeckStudyR deckId}> 
-  <input type="text" id="hidden" name="hidden" /> 
-  <button type="submit">finished 
+  <input type="hidden" id="hidden" name="hidden" /> 
+  <button type="submit" name="submit">finished
 
-
-
-
-<script>
-    function $(id) { return document.getElementById(id); }
-
-    let cards = [ ];
-    function setTerm(term) {
-        \$("term").innerHTML = term;
-    }
-
-    //from E
-    function choose(array) { return array[Math.floor(Math.random() * array.length)]; }
-
-    function getCard() { 
-        let minValue = cards.map((card) => card.correctRatio).reduce((card1, card2) => card1 < card2 ? card1 : card2); 
-        return choose(cards.filter((card) => card.correctRatio === minValue)); 
-    }
-
-    function correctRatio(card) { 
-        return card.correct+card.incorrect ? card.correct / (card.correct + card.incorrect) : 0; 
-    }
-
-    \$("form").onsubmit = function() { 
-        let box = $("defbox");
-        let displayArea = $("result"); 
-
-        console.log("running"); 
-
-        if (box.value === card.def) 
-        { 
-            displayArea.innerHTML = "Correct!"; 
-            card.correct++; 
+    <script>
+        function $(id) { return document.getElementById(id); }
+    
+        cards = [];
+        card = null;
+    
+        function setTerm() {
+            \$("term").innerText = card.term;
         }
-        else
-        {
-            displayArea.innerHTML = "Incorrect!"; 
-            card.incorrect++; 
+    
+        //from E
+        function choose(array) { return array[Math.floor(Math.random() * array.length)]; }
+    
+        function getCard() { 
+            let minValue = cards.map(card => correctRatio(card))
+                    .reduce((ratio1, ratio2) => ratio1 < ratio2 ? ratio1 : ratio2); 
+            return choose(cards.filter(card => correctRatio(card) === minValue));
         }
-
-        box.value = ""; 
-        loadCard(); 
-
-
-        \$("hidden").value = "["+fromCards(cards).map((card) => "["+card.join(",")+"]").join(",")+"]"; 
-
-        return false; 
-    }
-
-
-    function loadCard() 
-    {      
-        card = getCard();
-        setTerm(card.term);
-    }
-
-    function mkCards(term, def, correct, incorrect) 
-    {
-        let card = { "term": term, "def": def, "correct": correct, "incorrect": incorrect}; 
-        cards.push(card); 
-    }
-
-    function fromCards() 
-    { 
-
-        let newCards = [];
-        for (card of cards) 
-        {
-            let inner = [];
-            for (prop in card) 
+    
+        function correctRatio(card) { 
+            return card.correct+card.incorrect ? card.correct / (card.correct + card.incorrect) : 0;
+        }
+    
+        \$("form").onsubmit = function() { 
+            let box = $("defbox");
+            let displayArea = $("result"); 
+    
+            console.log("running"); 
+    
+            if (box.value === card.def) 
             { 
-                inner.push(["\""+card[prop]+"\""]); 
+                displayArea.innerText = "Correct!"; 
+                card.correct++; 
             }
-            newCards.push(inner); 
+            else
+            {
+                displayArea.innerText = "Incorrect!"; 
+                card.incorrect++; 
+            }
+
+            displayArea.innerText += `\nCorrect: ${card.correct}` 
+            displayArea.innerText += `\nIncorrect: ${card.incorrect}`  
+    
+            box.value = ""; 
+            loadCard(); 
+    
+            let exportedCards = cards.map(card =>
+                [[card.term], [card.def], [String(card.correct)], [String(card.incorrect)]]
+            );
+            \$("hidden").value = JSON.stringify(exportedCards);
+    
+            return false;
         }
-        return newCards 
-    }
+    
+        function loadCard()
+        {
+            card = getCard();
+            setTerm();
+        }
+    
+        function addCard(term, def, correct = 0, incorrect = 0)
+        {
+            cards.push({term, def, correct: parseInt(correct), incorrect: parseInt(incorrect)}); 
+        }
+     
+
 $forall (Card term def correct incorrect) <- cards 
     <script> 
-        mkCards("#{term}", "#{def}", #{correct}, #{incorrect})
+        addCard("#{term}", "#{def}", #{correct}, #{incorrect})
 
 <script> 
     loadCard(); 
