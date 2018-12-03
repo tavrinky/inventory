@@ -1,0 +1,17 @@
+<table style="width:100%">
+  <tr>
+    <th>Terms
+    <th>Definitions
+    <th>Correct 
+    <th>Incorrect 
+
+
+  $forall card <- cards
+    <tr> 
+      <td>#{term card} 
+      <td>#{definition card}
+      <td>#{correct card}
+      <td>#{incorrect card} 
+
+
+<a class="btn btn-primary" href="@{DeckStudyR deckId}" role="button">Study!</a>

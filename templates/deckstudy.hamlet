@@ -33,7 +33,7 @@
     
         function setTerm() {
             \$("term").innerText = card.term;
-        }
+        }   
     
         //from E
         function choose(array) { return array[Math.floor(Math.random() * array.length)]; }

@@ -32,11 +32,14 @@ postDeckStudyR deckId = do
   runDB $ update deckId [DeckCards =. (runPut . put $ cards)]
 
 
+
   
-  defaultLayout $ toWidget [hamlet| #{show cards} |] 
+  defaultLayout $ do 
+    $(widgetFile "deckafterstudy")
 
 
 
   where 
     mkCard (term:def:correct:incorrect:[]) = Card (encodeUtf8 term) (encodeUtf8 def) (fromJust $ readMay correct) (fromJust $ readMay incorrect) 
+
 
