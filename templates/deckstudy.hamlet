@@ -22,12 +22,14 @@
 
     
 <form method="post" action=@{DeckStudyR deckId}> 
-  <input type="hidden" id="hidden" name="hidden" /> 
+  <input type="hidden" id="new" name="new" /> 
+  <input type="hidden" id="old" name="old" /> 
   <button type="submit" name="submit">finished
 
+  
     <script>
         function $(id) { return document.getElementById(id); }
-    
+        
         cards = [];
         card = null;
     
@@ -38,10 +40,18 @@
         //from E
         function choose(array) { return array[Math.floor(Math.random() * array.length)]; }
     
-        function getCard() { 
+        function getMinCard() { 
             let minValue = cards.map(card => correctRatio(card))
                     .reduce((ratio1, ratio2) => ratio1 < ratio2 ? ratio1 : ratio2); 
             return choose(cards.filter(card => correctRatio(card) === minValue));
+        }
+
+        function getCard() { 
+            let lowRatio = correctRatio(getMinCard()); 
+            const eps = 0.25
+            //available.length >= 1, as getMinCard() will be in available 
+            let available = cards.filter((card) => correctRatio(card) - eps <= lowRatio) 
+            return choose(available) 
         }
     
         function correctRatio(card) { 
@@ -71,12 +81,18 @@
             box.value = ""; 
             loadCard(); 
     
-            let exportedCards = cards.map(card =>
-                [[card.term], [card.def], [String(card.correct)], [String(card.incorrect)]]
-            );
-            \$("hidden").value = JSON.stringify(exportedCards);
+            //let exportedCards = cards.map(card =>
+            //    [[card.term], [card.def], [String(card.correct)], [String(card.incorrect)]]
+            //);
+            \$("new").value = JSON.stringify(exportCards(cards)); 
     
             return false;
+        } 
+        function exportCards(cards) 
+        {
+            return cards.map(card => 
+                [[card.term], [card.def], [String(card.correct)], [String(card.incorrect)]]
+            );
         }
     
         function loadCard()
@@ -84,6 +100,7 @@
             card = getCard();
             setTerm();
         }
+
     
         function addCard(term, def, correct = 0, incorrect = 0)
         {
@@ -96,5 +113,6 @@ $forall (Card term def correct incorrect) <- cards
         addCard("#{term}", "#{def}", #{correct}, #{incorrect})
 
 <script> 
+    \$("old").value = JSON.stringify(exportCards(cards)); 
     loadCard(); 
-    \$("hidden").style.display = "none"; 
+    \$("new").style.display = "none"; 

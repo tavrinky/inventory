@@ -6,12 +6,12 @@
     <th>Incorrect 
 
 
-  $forall card <- cards
+  $forall card <- zip newCards scores 
     <tr> 
-      <td>#{term card} 
-      <td>#{definition card}
-      <td>#{correct card}
-      <td>#{incorrect card} 
+      <td>#{term $ fst card} 
+      <td>#{definition $ fst card}
+      <td>#{fst $ snd card}
+      <td>#{snd $ snd card} 
 
 
 <a class="btn btn-primary" href="@{DeckStudyR deckId}" role="button">Study!</a>
